@@ -102,4 +102,36 @@
         <servlet-name>autoLogin</servlet-name>
         <url-pattern>/user/autologin</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>getBooks</servlet-name>
+        <servlet-class>com.bookcity.servlet.book.GetBooks</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getBooks</servlet-name>
+        <url-pattern>/books</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>collectBook</servlet-name>
+        <servlet-class>com.bookcity.servlet.user.CollectBook</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>collectBook</servlet-name>
+        <url-pattern>/user/collect</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>getCollections</servlet-name>
+        <servlet-class>com.bookcity.servlet.user.GetCollections</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCollections</servlet-name>
+        <url-pattern>/user/collections</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>doBook</servlet-name>
+        <servlet-class>com.bookcity.servlet.book.DoBook</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>doBook</servlet-name>
+        <url-pattern>/admin/dobook</url-pattern>
+    </servlet-mapping>
 </web-app>

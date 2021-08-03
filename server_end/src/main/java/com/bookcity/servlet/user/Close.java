@@ -5,12 +5,14 @@ import com.bookcity.dao.DruidUtil;
 import com.bookcity.dao.UserDAO;
 import com.bookcity.entity.User;
 import com.bookcity.service.ResponseObj;
+import com.bookcity.utils.FileUtil;
 import com.bookcity.utils.TokenManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -28,6 +30,10 @@ public class Close extends HttpServlet {
             User user = TokenManager.find(token);
             //注销用户
             conn = DruidUtil.getConnection();
+            //删除头像文件和数据库
+            String avatar = user.getAvatar();
+            String deletePath = avatar.substring(0, avatar.lastIndexOf('/'));
+            FileUtil.deleteFile(new File(this.getServletContext().getRealPath(deletePath)));
             UserDAO ud = new UserDAO();
             ud.removeById(conn, user.getId());
             TokenManager.delete(token);

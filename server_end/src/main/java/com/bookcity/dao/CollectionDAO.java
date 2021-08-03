@@ -17,11 +17,27 @@ public class CollectionDAO extends BaseDAO<Collection> {
         return update(conn, "delete from collection where id=?", id);
     }
 
+    public int removeAllByUserId(Connection conn, int userId){
+        return update(conn, "delete from collection where userId=?", userId);
+    }
+
+    public int removeAllByBookId(Connection conn, int bookId){
+        return update(conn, "delete from collection where bookId=?", bookId);
+    }
+
+    public int removeOne(Connection conn, int userId, int bookId){
+        return update(conn, "delete from collection where userId=? and bookId=?", userId, bookId);
+    }
 
     //改
 
     //查
     public List<Collection> getCollections(Connection conn, int userId){
         return queryAll(conn, "select * from collection where userId=?", userId);
+    }
+
+    public boolean hasCollectied(Connection conn, int userId, int bookId){
+        Collection ret = query(conn, "select id from collection where (userId=? and bookId=?)", userId, bookId);
+        return ret!=null ? true : false;
     }
 }

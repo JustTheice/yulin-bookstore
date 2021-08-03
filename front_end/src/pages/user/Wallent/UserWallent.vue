@@ -45,6 +45,7 @@ export default {
           message: data.msg
         });
       }
+      payMoney.value = 0;
     }
 
     return {payMoney, user, toPay}

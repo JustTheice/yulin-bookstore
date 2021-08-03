@@ -40,4 +40,10 @@ public class Collection {
 
     public Collection() {
     }
+
+    public Collection(int id, int userId, int bookId) {
+        this.id = id;
+        this.userId = userId;
+        this.bookId = bookId;
+    }
 }

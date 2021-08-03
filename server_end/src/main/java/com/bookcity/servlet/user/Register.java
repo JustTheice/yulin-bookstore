@@ -54,6 +54,17 @@ public class Register extends HttpServlet {
                 field.setAccessible(true);
                 field.set(user, value);
             }
+            if(parameterMap.get("avatar") == null){
+                Field avatarField = clazz.getDeclaredField("avatar");
+                avatarField.setAccessible(true);
+                avatarField.set(user, "");
+            }
+            if(parameterMap.get("context") == null){
+                Field contextField = clazz.getDeclaredField("context");
+                contextField.setAccessible(true);
+                contextField.set(user, "");
+            }
+
 
             ud.add(conn, user);
             out.write(JSON.toJSONString(new ResponseObj(0, "注册成功", user)));

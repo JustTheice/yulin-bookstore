@@ -10,6 +10,7 @@ import jdk.nashorn.internal.parser.Token;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 
+import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -64,21 +65,12 @@ public class UploadAvatar extends HttpServlet {
 
             //2、ServletFileUpload，上传管理器
             ServletFileUpload upload = new ServletFileUpload(factory);
-            //监听文件上传进度
-//        upload.setProgressListener(new ProgressListener() {
-//            @Override
-//            //pBytesRead:已经读取到的文件大小
-//            //pContentLength ： 文件大小
-//            public void update(long pBytesRead, long pContentLength, int pItems) {
-//                System.out.println("总大小："+pContentLength+"已上传"+pBytesRead);
-//            }
-//        });
             //处理乱码问题
-            upload.setHeaderEncoding("utf-8");
+//            upload.setHeaderEncoding("utf-8");
             //设置单个文件的最大值
-            upload.setFileSizeMax(1024*1024*10);
+            upload.setFileSizeMax(1024*1024*100);
             //设置总共能够上传文件的大小
-            upload.setSizeMax(1024 * 1024 * 10);
+            upload.setSizeMax(1024 * 1024 * 100);
 
             //3、处理上传的文件
             String msg = "";

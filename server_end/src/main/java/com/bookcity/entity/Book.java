@@ -3,7 +3,7 @@ package com.bookcity.entity;
 public class Book {
     private int id;
     private String bookName;
-    private String bookCover;
+    private String bookCover = "";
     private int surplus;
     private double price;
 
