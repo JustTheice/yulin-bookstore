@@ -89,6 +89,12 @@ export default {
     },
     //请求购买全部
     handleToBuyAll(){
+      if(!this.collections.length){
+        return this.$message({
+          type: 'warning',
+          message: "购物车是空的"
+        });
+      }
       this.collectionReq(reqToBuyAll);
     },
     collectionReq(reqFn, book){
@@ -97,12 +103,11 @@ export default {
           let type;
           if(res.data.code === 0){
             type = 'success';
-            console.log(reqFn.name)
             //避免直接使用函数名判断，因为在打包时会对函数进行重命名
             // if(reqFn.name == 'reqToBuy' || reqFn.name == 'reqToBuyAll'){
             //   // console.log("用户更新")
             // }
-            if(res.data.data.id){
+            if(res.data.data){
               this.userUpdater(res.data.data);
             }
             if(book){

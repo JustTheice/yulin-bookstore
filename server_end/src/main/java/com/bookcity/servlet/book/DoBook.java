@@ -133,15 +133,17 @@ public class DoBook extends HttpServlet {
                     out.write(JSON.toJSONString(new ResponseObj(1, "书名已存在", null)));
                     return;
                 }
-                // 对于已存在的书，上传的bookCover可能不是一个文件而是url，不会被上面解析赋值，那么就手动赋值避免bookCover属性的丢失
-                if(existBook!=null && book.getBookCover().length() == 0){
-                    book.setBookCover(existBook.getBookCover());
-                }
+
                 //更新数据库
                 if(action.equals("add")){
                     Book addedBook = bd.add(conn, book);
                     out.write(JSON.toJSONString(new ResponseObj(0, "添加成功", addedBook)));
-                } else {
+                } else { //编辑模式下
+                    // 编辑模式，如果没有上传封面，就让其封面为之前的封面
+                    Book preBook = bd.getBookById(conn, book.getId());
+                    if(preBook!=null && book.getBookCover().length() == 0){
+                        book.setBookCover(preBook.getBookCover());
+                    }
                     Book updatedBook = bd.update(conn, book);
                     out.write(JSON.toJSONString(new ResponseObj(0, "修改成功", updatedBook)));
                 }

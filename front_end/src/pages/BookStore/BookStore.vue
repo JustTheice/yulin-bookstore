@@ -99,7 +99,7 @@ import {reqBooks} from '../../api';
       const handleEdit = (book) => {
         showAddBook();
         editMode.value = 'edit';
-        editingBook.value = book;
+        editingBook.value = reactive({...book});
       }
       //监视编辑框的关闭
       const addBookRef = ref()

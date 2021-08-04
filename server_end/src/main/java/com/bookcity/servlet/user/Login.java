@@ -36,8 +36,21 @@ public class Login extends HttpServlet {
 
             if((user = TokenManager.find(token)) == null) { //如果没有token，从数据库中查找
                 System.out.println("无token");
+
                 String username = req.getParameter("username");
                 String password = req.getParameter("password");
+
+                //先从tokens中查找用户，查看是否是多处登陆
+                if((token = TokenManager.findTokenByUsername(username)) != null){
+                    user = TokenManager.find(token);
+                    HashMap resMap = new HashMap();
+                    resMap.put("user", user);
+                    resMap.put("token", token);
+
+                    out.write(JSON.toJSONString(new ResponseObj(0, "登陆成功", resMap)));
+                    return;
+                }
+
 
                 conn = DruidUtil.getConnection();
                 UserDAO ud = new UserDAO();
