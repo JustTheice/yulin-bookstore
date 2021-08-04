@@ -13,10 +13,11 @@ public class TokenFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
 
         String reqURI = req.getRequestURI();
+        String uriSuffix = reqURI.substring(reqURI.lastIndexOf('/'));
 
         String token = req.getHeader("token");
         System.out.println(token);
-        if(token == null && !(reqURI.equals("/user/login") || reqURI.equals("/user/register"))){
+        if(token == null && !(uriSuffix.equals("/login") || uriSuffix.equals("/register"))){
             response.getWriter().write(JSON.toJSONString(new ResponseObj(4, "需要token",null)));
             return;
         }

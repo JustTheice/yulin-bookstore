@@ -33,7 +33,7 @@
       v-model="dialogVisible"
       width="30%"
       center>
-      <AddBook :book="editingBook" @edit-over="updateBooks" :mode="editMode" />
+      <AddBook ref="addBookRef" :book="editingBook" @edit-over="updateBooks" :mode="editMode" />
     </el-dialog>
     <!-- 添加图书窗口-end -->
   </el-container>
@@ -43,7 +43,7 @@
 import { ref,reactive } from '@vue/reactivity'
 import Book from './components/Book.vue';
 import AddBook from './components/AddBook.vue';
-import { computed, inject } from '@vue/runtime-core';
+import { computed, inject, watch } from '@vue/runtime-core';
 import {ElMessage} from 'element-plus';
 
 import {reqBooks} from '../../api';
@@ -84,7 +84,6 @@ import {reqBooks} from '../../api';
           currBookType.value = books.value;
         } else {
           searchBooks.value = books.value.filter((item) => item.bookName.search(text)!=-1);
-          console.log(searchBooks.value)
           currBookType.value = searchBooks.value;
         }
       }
@@ -98,11 +97,17 @@ import {reqBooks} from '../../api';
       }
       //编辑
       const handleEdit = (book) => {
-        console.log(book)
         showAddBook();
         editMode.value = 'edit';
         editingBook.value = book;
       }
+      //监视编辑框的关闭
+      const addBookRef = ref()
+      watch(dialogVisible, (isShow) => {
+        if(!isShow){
+          addBookRef.value.$refs.uploaderRef.myUrl = '';
+        }
+      })
 
       //子事件完成后的事件
       const updateBooks = (type, book) => {
@@ -112,12 +117,12 @@ import {reqBooks} from '../../api';
         } else if (type === 'delete'){
           books.value.splice(books.value.findIndex((item) => item.id === book.id), 1);
         } else if (type === 'edit'){
-          book.bookCover = book.bookCover + '?' + Date.now();
-          console.log(book)
+          // book.bookCover = book.bookCover + '?' + Date.now();
           books.value.splice(books.value.findIndex((item) => item.id === book.id), 1, book);
           dialogVisible.value = false;
           editingBook.value = {};
-        }
+        } 
+        
         return true;
       }
       const changePage = (page) => {
@@ -139,7 +144,6 @@ import {reqBooks} from '../../api';
         res => {
           const data = res.data;
           if(data.code === 0){
-            console.log(data.data)
             books.value = data.data;
             currBookType.value = reactive(books.value);
           } else {
@@ -153,7 +157,7 @@ import {reqBooks} from '../../api';
       return reactive({
         books, dialogVisible, searchText, user, currBooks, pageSize, currPage,
         changePage, updateBooks, searchBooks, currBookType, handleSearch, showAddBook,
-        handleEdit, editMode, handleAdd, editingBook
+        handleEdit, editMode, handleAdd, editingBook, addBookRef
       });
     },
   }

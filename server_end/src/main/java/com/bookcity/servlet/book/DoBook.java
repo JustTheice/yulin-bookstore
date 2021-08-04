@@ -129,8 +129,13 @@ public class DoBook extends HttpServlet {
                 //如果书名存在，并且这个书的ID不是自己
                 Book existBook = bd.getBookByName(conn, book.getBookName());
                 if(existBook!=null && book.getId()!=existBook.getId()){
+                    //判断是不是编辑的自己
                     out.write(JSON.toJSONString(new ResponseObj(1, "书名已存在", null)));
                     return;
+                }
+                // 对于已存在的书，上传的bookCover可能不是一个文件而是url，不会被上面解析赋值，那么就手动赋值避免bookCover属性的丢失
+                if(existBook!=null && book.getBookCover().length() == 0){
+                    book.setBookCover(existBook.getBookCover());
                 }
                 //更新数据库
                 if(action.equals("add")){
@@ -144,7 +149,6 @@ public class DoBook extends HttpServlet {
                 String bookId = req.getParameter("bookId");
                 //删除其封面
                 Book deleteBook = bd.getBookById(conn, Integer.parseInt(bookId));
-                System.out.println("deleteBook:" + deleteBook);
                 if(deleteBook.getBookCover().length() > 0){
                     FileUtil.deleteFile(new File(this.getServletContext().getRealPath(deleteBook.getBookCover())));
                 }

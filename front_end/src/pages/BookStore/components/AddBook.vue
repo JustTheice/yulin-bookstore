@@ -12,7 +12,7 @@
   </el-form-item>
   <!-- 封面上传-start -->
   <el-form-item label="上传封面">
-    <Uploader :defaultUrl="form.bookCover && BASE_URL + form.bookCover" :updater="(file) => form.file = file" />
+    <Uploader ref="uploaderRef" :defaultUrl="form.bookCover && BASE_URL + form.bookCover" :updater="(file) => form.file = file" />
   </el-form-item>
   <el-button type="primary" @click="onSubmit">提交</el-button>
   <!-- 封面上传-end -->
@@ -73,6 +73,8 @@ import { computed } from '@vue/runtime-core';
             formData.append('id', this.book.id)
             break;
         }
+
+        console.log(form);
 
         reqFn(formData).then(
           res => {

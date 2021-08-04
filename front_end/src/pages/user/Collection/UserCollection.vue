@@ -55,7 +55,6 @@ export default {
     //获取收藏列表
     getCollections().then(
       res => {
-        console.log(res)
         if(res.data.code === 0){
           collections.value = reactive(res.data.data);
         } else {
@@ -95,12 +94,15 @@ export default {
     collectionReq(reqFn, book){
       reqFn(book && book.id).then(
         res => {
-          console.log(res)
           let type;
           if(res.data.code === 0){
             type = 'success';
             console.log(reqFn.name)
-            if(reqFn.name == 'reqToBuy' || reqFn.name == 'reqToBuyAll'){
+            //避免直接使用函数名判断，因为在打包时会对函数进行重命名
+            // if(reqFn.name == 'reqToBuy' || reqFn.name == 'reqToBuyAll'){
+            //   // console.log("用户更新")
+            // }
+            if(res.data.data.id){
               this.userUpdater(res.data.data);
             }
             if(book){

@@ -35,11 +35,7 @@ import {myAxios} from '../api';
     },
     computed: {
       imageUrl(){
-        if(this.myUrl){
-          console.log(this.myUrl)
-          return this.myUrl
-        }
-        return this.defaultUrl;
+        return this.myUrl || this.defaultUrl;
       } 
     },
     // mounted(){
@@ -53,6 +49,7 @@ import {myAxios} from '../api';
         this.isUploading = false;
         this.myUrl = URL.createObjectURL(file.raw);
         this.callback && this.callback(res,file);
+        this.myUrl = '';
       },
       // 图片解析完成，上传前的回掉
       beforeAvatarUpload(file) {

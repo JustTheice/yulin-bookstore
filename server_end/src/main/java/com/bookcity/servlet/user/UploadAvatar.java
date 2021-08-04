@@ -82,12 +82,10 @@ public class UploadAvatar extends HttpServlet {
                 if (fileItem.isFormField()){ //普通表单内容
                     String name = fileItem.getFieldName();
                     String value = fileItem.getString("UTF-8");
-                    System.out.println(name+":"+value);
                 }else { //文件内容
                     //****************************处理文件****************************
                     //拿到文件名字
                     String uploadFileName = fileItem.getName();
-                    System.out.println("fileAllName：" + uploadFileName);
                     if (uploadFileName.trim().equals("") || uploadFileName == null) {
                         continue;
                     }
